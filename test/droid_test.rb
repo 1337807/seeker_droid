@@ -116,5 +116,4 @@ class SeekerDroid::DroidTest < Minitest::Test
 
     refute @droid.done?
   end
-
 end

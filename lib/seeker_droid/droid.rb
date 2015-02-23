@@ -27,27 +27,25 @@ module SeekerDroid
     end
 
     def forward
-      kill_current
-      set_direction :forward
-      self.current_action = Thread.new { @bot.forward(self.speed) }
+      drive :forward
     end
 
     def backward
-      kill_current
-      set_direction :backward
-      self.current_action = Thread.new { @bot.backward(self.speed) }
+      drive :backward
     end
 
     def right
-      kill_current
-      set_direction :right
-      self.current_action = Thread.new { @bot.right(self.speed) }
+      drive :right
     end
 
     def left
+      drive :left
+    end
+
+    def drive(direction)
       kill_current
-      set_direction :left
-      self.current_action = Thread.new { @bot.left(self.speed) }
+      set_direction direction
+      self.current_action = Thread.new { @bot.send(direction, self.speed) }
     end
 
     def set_direction direction
