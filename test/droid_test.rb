@@ -4,6 +4,7 @@ require 'seeker_droid/droid'
 class SeekerDroid::DroidTest < Minitest::Test
   def setup
     @droid = SeekerDroid::Droid.new 100, Mocha::Mock.new(:fake_bot)
+    @droid.logger.level = Logger::ERROR
 
     def Thread.new(*args, &block)
       block.call
