@@ -98,4 +98,23 @@ class SeekerDroid::DroidTest < Minitest::Test
     @droid.last_action_alerted = true
     @droid.red_alert
   end
+
+  def test_done_returns_true_if_current_action_is_dead
+    current_action = Mocha::Mock.new(:fake_dead_thread)
+    current_action.stubs(:dead?).returns(true)
+
+    @droid.current_action = current_action
+
+    assert @droid.done?
+  end
+
+  def test_done_returns_false_if_current_action_is_alive
+    current_action = Mocha::Mock.new(:fake_dead_thread)
+    current_action.stubs(:dead?).returns(false)
+
+    @droid.current_action = current_action
+
+    refute @droid.done?
+  end
+
 end

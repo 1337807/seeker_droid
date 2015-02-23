@@ -75,6 +75,10 @@ module SeekerDroid
       end
     end
 
+    def done?
+      self.current_action.dead?
+    end
+
     def setup_sensors
       #front sensors
       watch(pin: 22) do
