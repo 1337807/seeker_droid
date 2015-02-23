@@ -81,23 +81,27 @@ module SeekerDroid
 
     def setup_sensors
       #front sensors
-      watch(pin: 22) do
+      after(pin: 22, goes: :low) do
         #horizontal
-        red_alert if value == 1
+        red_alert
+        sleep 0.3
       end
-      watch(pin: 23) do
+      after(pin: 23, goes: :high) do
         #vertical
-        red_alert if value == 0
+        red_alert
+        sleep 0.3
       end
 
       #rear sensors
-      watch(pin: 24) do
+      after(pin: 25, goes: :low) do
         #horizontal
-        red_alert if value == 1
+        red_alert
+        sleep 0.3
       end
-      watch(pin: 25) do
+      after(pin: 24, goes: :high) do
         #vertical
-        red_alert if value == 0
+        red_alert
+        sleep 0.3
       end
     end
   end
