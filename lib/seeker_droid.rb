@@ -2,10 +2,10 @@ require 'seeker_droid/droid'
 
 module SeekerDroid
   def self.seek
-    @droid = SeekerDroid::Droid.new
+    @droid = SeekerDroid::Droid.new 50
 
     loop do
-      @droid.forward(50) if @droid.done?
+      @droid.forward if @droid.done?
       sleep 1
     end
   end
