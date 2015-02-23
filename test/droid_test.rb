@@ -122,4 +122,9 @@ class SeekerDroid::DroidTest < Minitest::Test
     @droid.logger.expects(:debug).with("New action: forward")
     @droid.forward
   end
+
+  def test_red_alert_logs
+    @droid.logger.expects(:debug).with("Alert: ")
+    @droid.red_alert
+  end
 end

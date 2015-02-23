@@ -55,15 +55,15 @@ module SeekerDroid
       self.directions << direction
     end
 
-    def last_direction
-      self.directions.last
-    end
-
     def red_alert
       double_alert = self.last_action_alerted
       kill_current :alert
 
-      case last_direction
+      msg = "Alert: #{self.directions.last}"
+      msg << ", previous action (#{self.directions[-2]}) also caused an alert." if double_alert
+      self.logger.debug msg
+
+      case self.directions.last
       when :forward, :right
         backward unless double_alert
         right
@@ -91,11 +91,13 @@ module SeekerDroid
       #front sensors
       after(pin: 22, goes: :low) do
         #horizontal
+        droid.debug "Sensor: pin 22 low, front horizontal"
         droid.red_alert
         sleep 0.3
       end
       after(pin: 23, goes: :high) do
         #vertical
+        droid.debug "Sensor: pin 23 high, front vertical"
         droid.red_alert
         sleep 0.3
       end
@@ -103,11 +105,13 @@ module SeekerDroid
       #rear sensors
       after(pin: 25, goes: :low) do
         #horizontal
+        droid.debug "Sensor: pin 25 low, rear horizontal"
         droid.red_alert
         sleep 0.3
       end
       after(pin: 24, goes: :high) do
         #vertical
+        droid.debug "Sensor: pin 24 high, rear vertical"
         droid.red_alert
         sleep 0.3
       end
