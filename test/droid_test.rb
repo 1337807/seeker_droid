@@ -71,4 +71,31 @@ class SeekerDroid::DroidTest < Minitest::Test
 
     assert_equal [:forward], @droid.directions
   end
+
+  def test_droid_sets_last_action_alerted_to_true_on_red_alert
+    @droid.red_alert
+    assert @droid.last_action_alerted
+  end
+
+  def test_droid_sets_last_action_alerted_to_false_after_red_alert
+    @droid.red_alert
+    assert @droid.last_action_alerted
+
+    @droid.bot.stubs(:forward)
+    @droid.forward
+
+    refute @droid.last_action_alerted
+  end
+
+  def test_droid_turns_right_and_goes_forward_on_red_alert_if_last_action_alerted
+    @droid.bot.stubs(:forward)
+    red_alert = sequence('red_alert')
+
+    @droid.bot.expects(:right).in_sequence(red_alert)
+    @droid.bot.expects(:forward).in_sequence(red_alert)
+
+    @droid.forward
+    @droid.last_action_alerted = true
+    @droid.red_alert
+  end
 end

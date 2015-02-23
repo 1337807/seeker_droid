@@ -9,17 +9,19 @@ module SeekerDroid
     include PiPiper if RUNNING_ON_PI
 
     attr_reader :bot, :directions
-    attr_accessor :current_action
+    attr_accessor :current_action, :last_action_alerted
 
     def initialize(bot = nil)
       @bot = bot || Robolove::Bot.new
       @directions = []
       @current_action = nil
+      @last_action_alerted = false
 
       setup_sensors if RUNNING_ON_PI
     end
 
-    def kill_current
+    def kill_current result = nil
+      self.last_action_alerted = (result == :alert)
       self.current_action.kill if @current_action
     end
 
@@ -56,12 +58,14 @@ module SeekerDroid
     end
 
     def red_alert
-      kill_current
+      double_alert = self.last_action_alerted
+      kill_current :alert
 
       case last_direction
       when :forward, :right
-        backward
+        backward unless double_alert
         right
+        forward if double_alert
       when :backward
         forward
         right
