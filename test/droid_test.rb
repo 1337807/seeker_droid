@@ -116,4 +116,10 @@ class SeekerDroid::DroidTest < Minitest::Test
 
     refute @droid.done?
   end
+
+  def test_directions_are_logged
+    @droid.bot.stubs(:forward)
+    @droid.logger.expects(:debug).with("New action: forward")
+    @droid.forward
+  end
 end

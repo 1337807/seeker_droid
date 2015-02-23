@@ -3,12 +3,13 @@ RUNNING_ON_PI = File.exists? '/proc'
 require 'robolove'
 require 'seeker_droid/pi_piper_monkey_patch' unless RUNNING_ON_PI
 require 'pi_piper'
+require 'logger'
 
 module SeekerDroid
   class Droid
     include PiPiper if RUNNING_ON_PI
 
-    attr_reader :bot, :directions, :speed
+    attr_reader :bot, :directions, :speed, :logger
     attr_accessor :current_action, :last_action_alerted
 
     def initialize(speed = 100, bot = nil)
@@ -17,6 +18,7 @@ module SeekerDroid
       @current_action = nil
       @last_action_alerted = false
       @speed = speed
+      @logger = Logger.new('log/seeker_droid.log', 'daily')
 
       setup_sensors if RUNNING_ON_PI
     end
@@ -45,6 +47,7 @@ module SeekerDroid
     def drive(direction)
       kill_current
       set_direction direction
+      self.logger.debug "New action: #{direction}"
       self.current_action = Thread.new { @bot.send(direction, self.speed) }
     end
 
