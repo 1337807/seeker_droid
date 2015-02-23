@@ -1,5 +1,6 @@
 require 'robolove'
-# require 'pi_piper'
+require 'seeker_droid/pi_piper_monkey_patch'
+require 'pi_piper'
 
 module SeekerDroid
   class Droid
