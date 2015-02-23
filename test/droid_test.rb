@@ -54,4 +54,21 @@ class SeekerDroid::DroidTest < Minitest::Test
     @droid.left
     @droid.red_alert
   end
+
+  def test_droid_stops_the_current_action_given_a_new_command
+    @droid.bot.stubs(:forward)
+    @droid.bot.stubs(:backward)
+
+    fake_thread = Mocha::Mock.new(:fake_thread_for_killing).tap { |t| t.expects(:kill) }
+    @droid.current_action = fake_thread
+
+    @droid.forward
+    @droid.backward
+  end
+
+  def test_set_direction_adds_directions_to_the_list
+    @droid.set_direction(:forward)
+
+    assert_equal [:forward], @droid.directions
+  end
 end
