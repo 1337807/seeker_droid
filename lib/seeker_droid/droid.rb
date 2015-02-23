@@ -8,14 +8,15 @@ module SeekerDroid
   class Droid
     include PiPiper if RUNNING_ON_PI
 
-    attr_reader :bot, :directions
+    attr_reader :bot, :directions, :speed
     attr_accessor :current_action, :last_action_alerted
 
-    def initialize(bot = nil)
+    def initialize(speed = 100, bot = nil)
       @bot = bot || Robolove::Bot.new
       @directions = []
       @current_action = nil
       @last_action_alerted = false
+      @speed = speed
 
       setup_sensors if RUNNING_ON_PI
     end
@@ -28,25 +29,25 @@ module SeekerDroid
     def forward
       kill_current
       set_direction :forward
-      self.current_action = Thread.new { @bot.forward }
+      self.current_action = Thread.new { @bot.forward(self.speed) }
     end
 
     def backward
       kill_current
       set_direction :backward
-      self.current_action = Thread.new { @bot.backward }
+      self.current_action = Thread.new { @bot.backward(self.speed) }
     end
 
     def right
       kill_current
       set_direction :right
-      self.current_action = Thread.new { @bot.right }
+      self.current_action = Thread.new { @bot.right(self.speed) }
     end
 
     def left
       kill_current
       set_direction :left
-      self.current_action = Thread.new { @bot.left }
+      self.current_action = Thread.new { @bot.left(self.speed) }
     end
 
     def set_direction direction
@@ -76,31 +77,37 @@ module SeekerDroid
     end
 
     def done?
-      self.current_action.dead?
+      if self.current_action
+        !self.current_action.alive?
+      else
+        true
+      end
     end
 
     def setup_sensors
+      droid = self
+
       #front sensors
       after(pin: 22, goes: :low) do
         #horizontal
-        red_alert
+        droid.red_alert
         sleep 0.3
       end
       after(pin: 23, goes: :high) do
         #vertical
-        red_alert
+        droid.red_alert
         sleep 0.3
       end
 
       #rear sensors
       after(pin: 25, goes: :low) do
         #horizontal
-        red_alert
+        droid.red_alert
         sleep 0.3
       end
       after(pin: 24, goes: :high) do
         #vertical
-        red_alert
+        droid.red_alert
         sleep 0.3
       end
     end

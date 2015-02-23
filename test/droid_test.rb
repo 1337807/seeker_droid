@@ -3,7 +3,7 @@ require 'seeker_droid/droid'
 
 class SeekerDroid::DroidTest < Minitest::Test
   def setup
-    @droid = SeekerDroid::Droid.new Mocha::Mock.new(:fake_bot)
+    @droid = SeekerDroid::Droid.new 100, Mocha::Mock.new(:fake_bot)
 
     def Thread.new(*args, &block)
       block.call
@@ -101,7 +101,7 @@ class SeekerDroid::DroidTest < Minitest::Test
 
   def test_done_returns_true_if_current_action_is_dead
     current_action = Mocha::Mock.new(:fake_dead_thread)
-    current_action.stubs(:dead?).returns(true)
+    current_action.stubs(:alive?).returns(false)
 
     @droid.current_action = current_action
 
@@ -110,7 +110,7 @@ class SeekerDroid::DroidTest < Minitest::Test
 
   def test_done_returns_false_if_current_action_is_alive
     current_action = Mocha::Mock.new(:fake_dead_thread)
-    current_action.stubs(:dead?).returns(false)
+    current_action.stubs(:alive?).returns(true)
 
     @droid.current_action = current_action
 
