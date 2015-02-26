@@ -128,4 +128,10 @@ class SeekerDroid::DroidTest < Minitest::Test
     @droid.logger.expects(:debug).with("Alert: ")
     @droid.red_alert
   end
+
+  def test_command_group_runs_both_commands
+    @droid.bot.expects(:right)
+    @droid.bot.expects(:forward)
+    @droid.command_group(:right, :forward)
+  end
 end

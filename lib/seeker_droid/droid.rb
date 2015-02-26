@@ -25,7 +25,7 @@ module SeekerDroid
 
     def kill_current result = nil
       self.last_action_alerted = (result == :alert)
-      self.current_action.kill if @current_action
+      self.current_action.kill if self.current_action
     end
 
     def forward
@@ -44,11 +44,17 @@ module SeekerDroid
       drive :left
     end
 
+    def command_group(*commands)
+      commands.each do |command|
+        drive command
+      end
+    end
+
     def drive(direction)
       kill_current
       set_direction direction
       self.logger.debug "New action: #{direction}"
-      self.current_action = Thread.new { @bot.send(direction, self.speed) }
+      self.current_action = Thread.new { self.bot.send(direction, self.speed) }
     end
 
     def set_direction direction
@@ -65,15 +71,15 @@ module SeekerDroid
 
       case self.directions.last
       when :forward, :right
-        backward unless double_alert
-        right
-        forward if double_alert
+        if double_alert
+          command_group(:right, :forward)
+        else
+          command_group(:backward, :right)
+        end
       when :backward
-        forward
-        right
+        command_group(:forward, :right)
       when :left
-        backward
-        left
+        command_group(:backward, :left)
       end
     end
 
