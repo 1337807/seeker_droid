@@ -11,15 +11,19 @@ module SeekerDroid
     REAR_VERTICAL_PIN = 24
     REAR_HORIZONTAL_PIN = 25
 
+    attr_reader :sensors
+
     def initialize(droid)
+      @sensors = []
+
       #front sensors
-      after(pin: FRONT_VERTICAL_PIN, goes: :high) do
+      self.sensors << after(pin: FRONT_VERTICAL_PIN, goes: :high) do
         #vertical
         droid.logger.debug "Sensor: pin #{FRONT_VERTICAL_PIN} high, front vertical"
         droid.red_alert
         sleep 0.3
       end
-      after(pin: FRONT_HORIZONTAL_PIN, goes: :low) do
+      self.sensors << after(pin: FRONT_HORIZONTAL_PIN, goes: :low) do
         #horizontal
         droid.logger.debug "Sensor: pin #{FRONT_HORIZONTAL_PIN} low, front horizontal"
         droid.red_alert
@@ -27,18 +31,22 @@ module SeekerDroid
       end
 
       #rear sensors
-      after(pin: REAR_VERTICAL_PIN, goes: :high) do
+      self.sensors << after(pin: REAR_VERTICAL_PIN, goes: :high) do
         #vertical
         droid.logger.debug "Sensor: pin #{REAR_VERTICAL_PIN} high, rear vertical"
         droid.red_alert
         sleep 0.3
       end
-      after(pin: REAR_HORIZONTAL_PIN, goes: :low) do
+      self.sensors << after(pin: REAR_HORIZONTAL_PIN, goes: :low) do
         #horizontal
         droid.logger.debug "Sensor: pin #{REAR_HORIZONTAL_PIN} low, rear horizontal"
         droid.red_alert
         sleep 0.3
       end
+    end
+
+    def implode
+      self.sensors.map(&:kill)
     end
   end
 end

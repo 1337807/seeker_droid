@@ -8,7 +8,7 @@ require 'seeker_droid/voice'
 
 module SeekerDroid
   class Droid
-    attr_reader :bot, :directions, :speed, :logger, :voice
+    attr_reader :bot, :directions, :speed, :logger, :voice, :proximity_sensor_array
     attr_accessor :current_action, :last_action_alerted
 
     def initialize(speed = 100, bot = nil)
@@ -26,6 +26,12 @@ module SeekerDroid
 
       self.logger.debug "Droid initialized"
       self.logger.debug "speed: #{self.speed}"
+    end
+
+    def stop
+      self.proximity_sensor_array.implode
+      self.bot.stop
+      self.logger.debug "Full stop"
     end
 
     def kill_current result = nil
