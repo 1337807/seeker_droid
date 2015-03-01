@@ -23,6 +23,9 @@ module SeekerDroid
       @logger = Logger.new('log/seeker_droid.log', 'daily')
 
       @proximity_sensor_array = ProximitySensorArray.new(self) if RUNNING_ON_PI
+
+      self.logger.debug "Droid initialized"
+      self.logger.debug "speed: #{self.speed}"
     end
 
     def kill_current result = nil

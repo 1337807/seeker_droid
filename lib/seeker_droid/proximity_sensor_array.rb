@@ -5,31 +5,37 @@ module SeekerDroid
   class ProximitySensorArray
     include PiPiper
 
+    FRONT_VERTICAL_PIN = 22
+    FRONT_HORIZONTAL_PIN = 23
+
+    REAR_VERTICAL_PIN = 24
+    REAR_HORIZONTAL_PIN = 25
+
     def initialize(droid)
       #front sensors
-      after(pin: 22, goes: :low) do
-        #horizontal
-        droid.logger.debug "Sensor: pin 22 low, front horizontal"
+      after(pin: FRONT_VERTICAL_PIN, goes: :high) do
+        #vertical
+        droid.logger.debug "Sensor: pin #{FRONT_VERTICAL_PIN} high, front vertical"
         droid.red_alert
         sleep 0.3
       end
-      after(pin: 23, goes: :high) do
-        #vertical
-        droid.logger.debug "Sensor: pin 23 high, front vertical"
+      after(pin: FRONT_HORIZONTAL_PIN, goes: :low) do
+        #horizontal
+        droid.logger.debug "Sensor: pin #{FRONT_HORIZONTAL_PIN} low, front horizontal"
         droid.red_alert
         sleep 0.3
       end
 
       #rear sensors
-      after(pin: 25, goes: :low) do
-        #horizontal
-        droid.logger.debug "Sensor: pin 25 low, rear horizontal"
+      after(pin: REAR_VERTICAL_PIN, goes: :high) do
+        #vertical
+        droid.logger.debug "Sensor: pin #{REAR_VERTICAL_PIN} high, rear vertical"
         droid.red_alert
         sleep 0.3
       end
-      after(pin: 24, goes: :high) do
-        #vertical
-        droid.logger.debug "Sensor: pin 24 high, rear vertical"
+      after(pin: REAR_HORIZONTAL_PIN, goes: :low) do
+        #horizontal
+        droid.logger.debug "Sensor: pin #{REAR_HORIZONTAL_PIN} low, rear horizontal"
         droid.red_alert
         sleep 0.3
       end
