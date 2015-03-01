@@ -3,14 +3,16 @@ RUNNING_ON_PI = File.exists? '/proc'
 require 'robolove'
 require 'logger'
 require 'seeker_droid/proximity_sensor_array'
+require 'seeker_droid/voice'
 
 module SeekerDroid
   class Droid
-    attr_reader :bot, :directions, :speed, :logger
+    attr_reader :bot, :directions, :speed, :logger, :voice
     attr_accessor :current_action, :last_action_alerted
 
     def initialize(speed = 100, bot = nil)
       @bot = bot || Robolove::Bot.new
+      @voice = Voice.new
       @directions = []
       @current_action = nil
       @last_action_alerted = false
@@ -85,6 +87,14 @@ module SeekerDroid
         !self.current_action.alive?
       else
         true
+      end
+    end
+
+    def speak(pitch, phrase)
+      if pitch == :high
+        self.voice.high(phrase)
+      elsif pitch == :low
+        self.voice.low(phrase)
       end
     end
   end

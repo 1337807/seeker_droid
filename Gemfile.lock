@@ -1,11 +1,11 @@
 GIT
-  remote: git@github.com:1337807/robolove.git
-  revision: 42cc667c9221b073ff1a9c06f79867072cb242c5
+  remote: https://github.com/1337807/robolove.git
+  revision: c9a016f678930d5d7db40d21d3228e2783cd285f
   specs:
     robolove (0.0.1)
 
 GIT
-  remote: git@github.com:docwhat/lego_nxt.git
+  remote: https://github.com/docwhat/lego_nxt.git
   revision: cda07aa1ad59b5370ed894f3539b64d3c3ff11dc
   specs:
     lego_nxt (1.0.0)
