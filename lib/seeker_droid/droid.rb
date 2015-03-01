@@ -1,14 +1,11 @@
 RUNNING_ON_PI = File.exists? '/proc'
 
 require 'robolove'
-require 'seeker_droid/pi_piper_monkey_patch' unless RUNNING_ON_PI
-require 'pi_piper'
 require 'logger'
+require 'seeker_droid/proximity_sensor_array'
 
 module SeekerDroid
   class Droid
-    include PiPiper if RUNNING_ON_PI
-
     attr_reader :bot, :directions, :speed, :logger
     attr_accessor :current_action, :last_action_alerted
 
@@ -20,7 +17,7 @@ module SeekerDroid
       @speed = speed
       @logger = Logger.new('log/seeker_droid.log', 'daily')
 
-      setup_sensors if RUNNING_ON_PI
+      @proximity_sensor_array = ProximitySensorArray.new(self) if RUNNING_ON_PI
     end
 
     def kill_current result = nil
@@ -88,38 +85,6 @@ module SeekerDroid
         !self.current_action.alive?
       else
         true
-      end
-    end
-
-    def setup_sensors
-      droid = self
-
-      #front sensors
-      after(pin: 22, goes: :low) do
-        #horizontal
-        droid.debug "Sensor: pin 22 low, front horizontal"
-        droid.red_alert
-        sleep 0.3
-      end
-      after(pin: 23, goes: :high) do
-        #vertical
-        droid.debug "Sensor: pin 23 high, front vertical"
-        droid.red_alert
-        sleep 0.3
-      end
-
-      #rear sensors
-      after(pin: 25, goes: :low) do
-        #horizontal
-        droid.debug "Sensor: pin 25 low, rear horizontal"
-        droid.red_alert
-        sleep 0.3
-      end
-      after(pin: 24, goes: :high) do
-        #vertical
-        droid.debug "Sensor: pin 24 high, rear vertical"
-        droid.red_alert
-        sleep 0.3
       end
     end
   end
