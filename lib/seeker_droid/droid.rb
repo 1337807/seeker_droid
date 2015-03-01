@@ -1,6 +1,7 @@
 RUNNING_ON_PI = File.exists? '/proc'
 
 require 'robolove'
+require 'fileutils'
 require 'logger'
 require 'seeker_droid/proximity_sensor_array'
 require 'seeker_droid/voice'
@@ -17,6 +18,8 @@ module SeekerDroid
       @current_action = nil
       @last_action_alerted = false
       @speed = speed
+
+      FileUtils.mkdir_p('log')
       @logger = Logger.new('log/seeker_droid.log', 'daily')
 
       @proximity_sensor_array = ProximitySensorArray.new(self) if RUNNING_ON_PI
