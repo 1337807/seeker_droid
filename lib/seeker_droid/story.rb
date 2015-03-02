@@ -34,7 +34,7 @@ module SeekerDroid
     def wait_for_quiet
       if RUNNING_ON_PI
         sleep 2
-        Timeout::timeout(10) {
+        Timeout::timeout(3) {
           sleep until self.mic.current_noise_level < 0.02
         }
       else
