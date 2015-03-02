@@ -40,6 +40,7 @@ module SeekerDroid
       else
         sleep 4
       end
+    rescue Timeout::Error
     end
   end
 end
