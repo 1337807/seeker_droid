@@ -99,14 +99,3 @@ module SeekerDroid
     end
   end
 end
-
-c = SeekerDroid::Cli.new
-
-class Fake
-  def name
-    'bobo'
-  end
-end
-
-SeekerDroid::Ansible.new.receive(Fake.new)
-c.start
