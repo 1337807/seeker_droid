@@ -1,19 +1,17 @@
-RUNNING_ON_PI = File.exists? '/proc'
-
 require 'robolove'
 require 'fileutils'
 require 'logger'
 require 'seeker_droid/proximity_sensor_array'
-require 'seeker_droid/voice'
 
 module SeekerDroid
+  RUNNING_ON_PI = File.exists? '/proc' unless defined? RUNNING_ON_PI
+
   class Droid
-    attr_reader :bot, :directions, :speed, :logger, :voice, :proximity_sensor_array
+    attr_reader :bot, :directions, :speed, :logger, :proximity_sensor_array
     attr_accessor :current_action, :last_action_alerted
 
     def initialize(speed = 100, bot = nil)
       @bot = bot || Robolove::Bot.new
-      @voice = Voice.new
       @directions = []
       @current_action = nil
       @last_action_alerted = false
@@ -58,6 +56,7 @@ module SeekerDroid
     def command_group(*commands)
       commands.each do |command|
         drive command
+        sleep until done?
       end
     end
 
@@ -99,14 +98,6 @@ module SeekerDroid
         !self.current_action.alive?
       else
         true
-      end
-    end
-
-    def speak(pitch, phrase)
-      if pitch == :high
-        self.voice.high(phrase)
-      elsif pitch == :low
-        self.voice.low(phrase)
       end
     end
   end
