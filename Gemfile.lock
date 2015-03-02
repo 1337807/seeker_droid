@@ -32,6 +32,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rake (10.4.2)
+    redis (3.2.1)
     slop (3.6.0)
 
 PLATFORMS
@@ -44,4 +45,5 @@ DEPENDENCIES
   pi_piper
   pry
   rake
+  redis
   robolove!
