@@ -17,6 +17,11 @@ module SeekerDroid
       end
     end
 
+    def current_noise_level
+      record
+      last_maximum_amplitude
+    end
+
     def last_maximum_amplitude
       `/usr/bin/sox -t .wav #{SAMPLE_FILENAME} -n stat 2>&1`.match(/Maximum amplitude:\s+(.*)/m)
       $1.to_f

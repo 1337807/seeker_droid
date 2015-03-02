@@ -35,7 +35,7 @@ module SeekerDroid
       if RUNNING_ON_PI
         sleep 1
         Timeout::timeout(3) {
-          sleep until (max = self.mic.last_maximum_amplitude) && max < 1.0
+          sleep until self.mic.current_noise_level < 0.01
         }
       else
         sleep 4
