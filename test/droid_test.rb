@@ -8,7 +8,10 @@ class SeekerDroid::DroidTest < Minitest::Test
 
     def Thread.new(*args, &block)
       block.call
-      Mocha::Mock.new(:fake_thread).tap { |mock| mock.stubs(:kill) }
+      Mocha::Mock.new(:fake_thread).tap do |mock|
+        mock.stubs(:kill)
+        mock.stubs(:alive?)
+      end
     end
   end
 
