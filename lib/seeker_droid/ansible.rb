@@ -3,10 +3,19 @@ require 'json'
 
 module SeekerDroid
   class Ansible
+    REDIS_HOSTS = {
+      'onering' => '10.0.0.2'
+    }
+
     attr_reader :redis
 
     def initialize
-      @redis = Redis.new
+      @redis = Redis.new(host: get_host_ip, port: 6379)
+    end
+
+    def get_host_ip
+      ssid = `iwconfig | grep wlan0`.match(/ESSID\W*(\w*)/)[1]
+      REDIS_HOSTS[ssid]
     end
 
     def receive(droid)
