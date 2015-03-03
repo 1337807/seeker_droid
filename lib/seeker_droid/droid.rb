@@ -3,6 +3,7 @@ require 'fileutils'
 require 'logger'
 require 'seeker_droid/proximity_sensor_array'
 require 'seeker_droid/ansible'
+require 'seeker_droid/voice'
 
 module SeekerDroid
   RUNNING_ON_PI = File.exists? '/proc' unless defined? RUNNING_ON_PI

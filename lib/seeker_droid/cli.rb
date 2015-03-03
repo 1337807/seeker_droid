@@ -1,5 +1,5 @@
 require 'io/console'
-require './lib/seeker_droid/ansible'
+require 'seeker_droid/ansible'
 
 module SeekerDroid
   class Cli
