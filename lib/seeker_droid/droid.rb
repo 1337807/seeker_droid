@@ -67,6 +67,10 @@ module SeekerDroid
       drive :left
     end
 
+    def speak(message)
+      self.voice.speak(message)
+    end
+
     def command_group(*commands)
       commands.each do |command|
         drive command

@@ -24,16 +24,21 @@ module SeekerDroid
       Thread.new do
         self.redis.subscribe('both', droid.name) do |on|
           on.message do |channel, msg|
-            command = JSON.parse(msg)['command']
-            droid.send(command)
+            parsed = JSON.parse(msg)
+
+            if parsed['message']
+              droid.send(parsed['command'], parsed['message'])
+            else
+              droid.send(parsed['command'])
+            end
           end
         end
       end
     end
 
-    def transmit(device, command)
-      puts "Sending #{command} to #{device}"
-      self.redis.publish device.to_s, { :command => command }.to_json
+    def transmit(device, message)
+      puts "Sending #{message} to #{device}"
+      self.redis.publish device.to_s, message.to_json
     end
   end
 end

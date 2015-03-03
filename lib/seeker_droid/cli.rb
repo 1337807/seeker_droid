@@ -33,24 +33,46 @@ module SeekerDroid
       return input
     end
 
-    def speech_prompt
-      puts "robots talk!"
+    def speak
+      puts "1: Bobo, 2: Robo, Space: Both - Esc to exit"
+      device_selection = read_char
+
+      if device_selection == "1"
+        device = :bobo
+      elsif device_selection == "2"
+        device = :robo
+      else
+        device = :both
+      end
+
+      message = gets.chomp
+
+      while message.strip == ""
+        puts "If you're trying to quit just hit escape (and then enter)"
+        message = gets.chomp
+      end
+
+      if message == "\e"
+        return
+      end
+
+      self.ansible.transmit(device, command: :speak, message: message)
     end
 
     def forward(device)
-      self.ansible.transmit(device, :forward)
+      self.ansible.transmit(device, command: :forward)
     end
 
     def backward(device)
-      self.ansible.transmit(device, :backward)
+      self.ansible.transmit(device, command: :backward)
     end
 
     def right(device)
-      self.ansible.transmit(device, :right)
+      self.ansible.transmit(device, command: :right)
     end
 
     def left(device)
-      self.ansible.transmit(device, :left)
+      self.ansible.transmit(device, command: :left)
     end
 
     def get_character
@@ -58,7 +80,7 @@ module SeekerDroid
 
       case c
       when "\r"
-        speech_prompt
+        speak
       when "\e"
         puts "ESCAPE"
         self.exit_prompt = true

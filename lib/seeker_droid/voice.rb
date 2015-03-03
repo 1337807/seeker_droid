@@ -2,6 +2,14 @@ module SeekerDroid
   RUNNING_ON_PI = File.exists? '/proc' unless defined? RUNNING_ON_PI
 
   class Voice
+    def speak(phrase)
+      if ENV['BOBO']
+        low(phrase)
+      else
+        high(phrase)
+      end
+    end
+
     def low(phrase)
       if RUNNING_ON_PI
         `espeak "#{phrase}" -a 500 -s 140 2> /dev/null`

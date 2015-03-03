@@ -3,7 +3,6 @@ require 'seeker_droid/story'
 require 'seeker_droid/mic'
 
 module SeekerDroid
-  BOBO = ENV['BOBO']
   RUNNING_ON_PI = File.exists? '/proc' unless defined? RUNNING_ON_PI
 
   class Story
@@ -15,18 +14,16 @@ module SeekerDroid
     end
 
     def tell
-      wait_for_quiet unless BOBO
+      wait_for_quiet unless ENV['BOBO']
 
       self.script.split("\n").each_with_index do |line, index|
-        if BOBO
+        if ENV['BOBO']
           next unless index.even?
-          pitch = :high
         else
           next unless index.odd?
-          pitch = :low
         end
 
-        self.voice.send(pitch, line)
+        self.voice.speak line
         wait_for_quiet
       end
     end
