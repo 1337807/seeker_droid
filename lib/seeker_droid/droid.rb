@@ -78,7 +78,7 @@ module SeekerDroid
       kill_current
       set_direction direction
       self.logger.debug "New action: #{direction}"
-      self.current_action = Thread.new { self.bot.send(direction, self.speed) }
+      self.current_action = Thread.new { self.bot.send(direction, 0.1, self.speed) }
     end
 
     def set_direction direction
