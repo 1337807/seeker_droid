@@ -36,6 +36,7 @@ module SeekerDroid
     def speak
       puts "1: Bobo, 2: Robo, Space: Both - Esc to exit"
       device_selection = read_char
+      puts "Selected #{device_selection}"
 
       if device_selection == "1"
         device = :bobo
@@ -44,6 +45,8 @@ module SeekerDroid
       else
         device = :both
       end
+
+      puts "Device is #{device}"
 
       message = gets.chomp
 
