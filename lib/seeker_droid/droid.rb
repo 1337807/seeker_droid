@@ -8,7 +8,7 @@ module SeekerDroid
   RUNNING_ON_PI = File.exists? '/proc' unless defined? RUNNING_ON_PI
 
   class Droid
-    attr_reader :bot, :directions, :speed, :logger, :proximity_sensor_array, :ansible
+    attr_reader :bot, :directions, :speed, :logger, :proximity_sensor_array, :ansible, :voice
     attr_accessor :current_action, :last_action_alerted
 
     def initialize(speed = 100, bot = nil)
@@ -17,6 +17,7 @@ module SeekerDroid
       @current_action = nil
       @last_action_alerted = false
       @speed = speed
+      @voice = Voice.new
 
       FileUtils.mkdir_p('log')
       @logger = Logger.new('log/seeker_droid.log', 'daily')
