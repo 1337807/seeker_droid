@@ -22,7 +22,7 @@ module SeekerDroid
       @logger = Logger.new('log/seeker_droid.log', 'daily')
 
       if RUNNING_ON_PI
-        @proximity_sensor_array = ProximitySensorArray.new(self) if RUNNING_ON_PI
+        @proximity_sensor_array = ProximitySensorArray.new(self) if false
 
         @ansible = Ansible.new
         self.ansible.receive(self)
