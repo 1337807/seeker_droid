@@ -14,7 +14,9 @@ module SeekerDroid
     end
 
     def get_host_ip
-      ssid = `iwconfig | grep wlan0`.match(/ESSID\W*(\w*)/)[1]
+      ssid = 'onering'
+      # Doesn't work on OS X, equivalent?
+      # ssid = `iwconfig | grep wlan0`.match(/ESSID\W*(\w*)/)[1]
       REDIS_HOSTS[ssid]
     end
 
