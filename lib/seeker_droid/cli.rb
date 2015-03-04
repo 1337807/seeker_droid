@@ -34,7 +34,7 @@ module SeekerDroid
       return input
     end
 
-    def speak
+    def speak(multi_message = nil)
       puts "1: Bobo, 2: Robo, Space: Both - Esc to exit"
       device_selection = read_char
       puts "Selected #{device_selection}"
@@ -43,6 +43,9 @@ module SeekerDroid
         device = :bobo
       elsif device_selection == "2"
         device = :robo
+      elsif device_selection == "\e"
+        puts "Aborting message input"
+        return
       else
         device = :both
       end
@@ -57,10 +60,26 @@ module SeekerDroid
       end
 
       if message == "\e"
+        "Aborting message input"
         return
       end
 
-      self.ansible.transmit(device, command: :speak, message: message)
+      if multi_message
+        self.ansible.transmit(device, command: :speak, message: message)
+
+        loop do
+          message = gets.chomp
+
+          if message == "\e"
+            puts "Aborting message input"
+            return
+          end
+
+          self.ansible.transmit(device, command: :speak, message: message)
+        end
+      else
+        self.ansible.transmit(device, command: :speak, message: message)
+      end
     end
 
     def forward(device)
@@ -85,6 +104,8 @@ module SeekerDroid
       case c
       when "\r"
         speak
+      when "\\"
+        speak(true)
       when "\e"
         puts "ESCAPE"
         self.exit_prompt = true
