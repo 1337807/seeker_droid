@@ -102,8 +102,8 @@ module SeekerDroid
       self.ansible.transmit(device, command: :music)
     end
 
-    def stop_music(device)
-      self.ansible.transmit(device, command: :stop_music)
+    def story(device)
+      self.ansible.transmit(device, command: :story)
     end
 
     def introduction(device)
@@ -152,17 +152,9 @@ module SeekerDroid
 
       when "m"
         music(:both)
-      when "M"
-        music(:bobo)
-      when "µ"
-        music(:robo)
 
       when "s"
-        stop_music(:both)
-      when "S"
-        stop_music(:bobo)
-      when "ß"
-        stop_music(:robo)
+        story(:both)
 
       when "i"
         introduction(:both)

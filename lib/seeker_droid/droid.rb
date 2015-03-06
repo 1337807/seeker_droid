@@ -4,6 +4,7 @@ require 'logger'
 require 'seeker_droid/proximity_sensor_array'
 require 'seeker_droid/ansible'
 require 'seeker_droid/voice'
+require 'seeker_droid/story'
 
 module SeekerDroid
   RUNNING_ON_PI = File.exists? '/proc' unless defined? RUNNING_ON_PI
@@ -81,6 +82,10 @@ module SeekerDroid
 
     def speak(message)
       self.voice.speak(message)
+    end
+
+    def story
+      Story.new.tell
     end
 
     def introduction(message)
