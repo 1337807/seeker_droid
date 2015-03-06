@@ -4,7 +4,8 @@ require 'json'
 module SeekerDroid
   class Ansible
     REDIS_HOSTS = {
-      'onering' => '10.0.0.2'
+      'onering' => '10.0.0.2',
+      '1337807' => '192.168.43.71'
     }
 
     attr_reader :redis
@@ -14,7 +15,7 @@ module SeekerDroid
     end
 
     def get_host_ip
-      ssid = 'onering'
+      ssid = '1337807'
       # Doesn't work on OS X, equivalent?
       # ssid = `iwconfig | grep wlan0`.match(/ESSID\W*(\w*)/)[1]
       REDIS_HOSTS[ssid]
