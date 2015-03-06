@@ -98,6 +98,18 @@ module SeekerDroid
       self.ansible.transmit(device, command: :left)
     end
 
+    def music(device)
+      self.ansible.transmit(device, command: :music)
+    end
+
+    def stop_music(device)
+      self.ansible.transmit(device, command: :stop_music)
+    end
+
+    def introduction(device)
+      self.ansible.transmit(device, command: :introduction)
+    end
+
     def get_character
       c = read_char
 
@@ -137,6 +149,23 @@ module SeekerDroid
         left(:bobo)
       when "\e\e[D"
         left(:robo)
+
+      when "m"
+        music(:both)
+      when "M"
+        music(:bobo)
+      when "µ"
+        music(:robo)
+
+      when "s"
+        stop_music(:both)
+      when "S"
+        stop_music(:bobo)
+      when "ß"
+        stop_music(:robo)
+
+      when "i"
+        introduction(:both)
 
       when /^.$/
         puts "SINGLE CHAR HIT: #{c.inspect}"

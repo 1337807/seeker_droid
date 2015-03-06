@@ -10,12 +10,13 @@ module SeekerDroid
 
   class Droid
     attr_reader :bot, :directions, :speed, :logger, :proximity_sensor_array, :ansible, :voice
-    attr_accessor :current_action, :last_action_alerted
+    attr_accessor :current_action, :last_action_alerted, :music_action
 
     def initialize(speed = 100, bot = nil)
       @bot = bot || Robolove::Bot.new
       @directions = []
       @current_action = nil
+      @music_action = nil
       @last_action_alerted = false
       @speed = speed
       @voice = Voice.new
@@ -69,8 +70,22 @@ module SeekerDroid
       drive :left
     end
 
+    def music
+      self.music_action = Thread.new { `omxplayer /home/pi/final_countdown.mp3` }
+    end
+
+    def stop_music
+      self.music_action.kill
+      self.music_action = nil
+    end
+
     def speak(message)
       self.voice.speak(message)
+    end
+
+    def introduction(message)
+      sleep 5 unless ENV['BOBO']
+      speak("Hello Ruby on Ales, I'm #{ENV['BOBO'] ? 'Bobo' : 'Robo'}")
     end
 
     def command_group(*commands)

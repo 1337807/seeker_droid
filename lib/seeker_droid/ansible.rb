@@ -4,6 +4,7 @@ require 'json'
 module SeekerDroid
   class Ansible
     REDIS_HOSTS = {
+      'local' => '127.0.0.1',
       'onering' => '10.0.0.2',
       '1337807' => '192.168.43.71'
     }
