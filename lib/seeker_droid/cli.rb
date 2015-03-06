@@ -14,7 +14,7 @@ module SeekerDroid
     def start
       while !self.exit_prompt
         get_character
-        sleep 0.1
+        sleep 0.3
       end
     end
 
