@@ -88,7 +88,7 @@ module SeekerDroid
       Story.new.tell
     end
 
-    def introduction(message)
+    def introduction
       sleep 5 unless ENV['BOBO']
       speak("Hello Ruby on Ales, I'm #{ENV['BOBO'] ? 'Bobo' : 'Robo'}")
     end
