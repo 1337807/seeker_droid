@@ -90,7 +90,7 @@ module SeekerDroid
 
     def introduction
       sleep 5 unless ENV['BOBO']
-      speak("Hello Ruby on Ales, I'm #{ENV['BOBO'] ? 'Bobo' : 'Robo'}")
+      speak("Hello Ruby on Ales, I'm #{self.name}")
     end
 
     def command_group(*commands)
